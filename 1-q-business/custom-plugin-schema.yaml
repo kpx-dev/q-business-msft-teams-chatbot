@@ -1,0 +1,50 @@
+openapi: 3.0.0
+info:
+  title: User Upgrade - Help upgrade a user to a new plan
+  version: 1.0.0
+
+servers:
+- url: https://xyz.lambda-url.us-east-1.on.aws/
+
+paths:
+  /user/{userId}/plan/{planId}:
+    post:
+      summary: Upgrade a user to a new plan based on their user id and plan id
+      description: Upgrade a user based on user id and plan id. 
+      parameters:
+      - name: userId
+        x-amzn-form-display-name: "User Id"
+        description: The user's id of the customer
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: planId
+        in: path
+        x-amzn-form-display-name: "Plan Id"
+        description: The plan id to upgrade to 
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Upgrade'
+      responses:
+        '201':
+          description: Upgraded Member to a new package successfully
+          
+components:
+  schemas:
+    Upgrade:
+      type: object
+      required:
+      - planId
+      - userId
+      properties:
+        planId:
+          type: integer
+        userId:
+          type: integer
